@@ -25,10 +25,11 @@ What
 `autossl` is a module for Python 2.7+/3.5+ that can be used to to automate SSL certificate monitoring, renewal and deployment.
 
 This module can be customized with plugins mechanism to support any type of:
-- server: where the certificate is deployed, can be 1 or more server, potentially of different types
-- storage: where to store your artifacts (private key, public certificate, ...)
-- tracking mechanism: how to track renewal process (ticket creation)
-- renewal method: how to get a new certificate (local CA, ACME protocol, ....)
+
+* **server**: where the certificate is deployed, can be 1 or more server, potentially of different types
+* **storage**: where to store your artifacts (private key, public certificate, ...)
+* **tracking mechanism**: how to track renewal process (ticket creation)
+* **renewal method**: how to get a new certificate (local CA, ACME protocol, ....)
 
 It's providing a command line interface with simple actions: `check`, `renew`, `deploy`.
 All configuration is provided thanks to blueprints in Yaml
