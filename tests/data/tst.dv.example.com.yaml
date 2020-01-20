@@ -1,0 +1,44 @@
+---
+name: auto_tst.autossl.example.com
+
+certificate:
+  type: DV
+  renewal_delay: 30
+  certificate_authority: LetsEncrypt
+  exact_match: true
+  common_name: tst.autossl.example.com
+  san:
+    - tst.autossl.example.com
+    - uat.tst.autossl.example.com
+    - pit.tst.autossl.example.com
+    - cit.tst.autossl.example.com
+    - mgt.tst.autossl.example.com
+
+servers:
+  - type: autossl.server.local.LocalServer
+    parameters:
+      path: ${AUTOSSL_CRT_PATH}
+  - type: autossl.server.local.LocalServer
+    parameters:
+      path: ${AUTOSSL_CRT_PATH_2}
+      deploy_full_chain: true
+
+storage:
+  type: autossl.storage.gitscm.GitStorage
+  credentials: credential_1
+  parameters:
+    git_url: https://git.autossl.com/git/scm/ssl/certificates.git
+    config_user_name: Test User
+    config_user_email: test.user@autossl.com
+  data:
+    - type: key
+    - type: csr
+    - type: crt
+
+credentials:
+  credential_1:
+    type: UserPassword
+  credential_2:
+    type: UserPassword
+
+...

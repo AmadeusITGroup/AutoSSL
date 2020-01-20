@@ -1,0 +1,71 @@
+{
+  "site_id": 12345678,
+  "statusEnum": "fully_configured",
+  "status": "fully-configured",
+  "domain": "tst.example.autossl.com",
+  "account_id": 7654321,
+  "site_creation_date": 1532954575000,
+  "ips": [
+    "1.1.1.1"
+  ],
+  "dns": [
+    {
+      "dns_record_name": "tst.example.autossl.com",
+      "set_type_to": "CNAME",
+      "set_data_to": [
+        "abcd3py.x.incapdns.net"
+      ]
+    }
+  ],
+  "original_dns": [
+    {
+      "dns_record_name": "autossl.com",
+      "set_type_to": "A",
+      "set_data_to": [
+        ""
+      ]
+    },
+    {
+      "dns_record_name": "tst.example.autossl.com",
+      "set_type_to": "A",
+      "set_data_to": [
+        "1.1.1.1"
+      ]
+    },
+    {
+      "dns_record_name": "tst.example.autossl.com",
+      "set_type_to": "CNAME",
+      "set_data_to": [
+        ""
+      ]
+    }
+  ],
+  "warnings": [],
+  "active": "active",
+  "display_name": "tst.example.autossl.com",
+  "ssl": {
+    "origin_server": {
+      "detected": true,
+      "detectionStatus": "ok"
+    },
+    "custom_certificate": {
+      "active": true,
+      "expirationDate": 1552814263000,
+      "revocationError": false,
+      "validityError": false,
+      "chainError": false,
+      "hostnameMismatchError": false
+    },
+    "generated_certificate": {
+      "ca": "GS",
+      "san": []
+    }
+  },
+  "extended_ddos": 10000,
+  "log_level": "full",
+  "res": 0,
+  "res_message": "OK",
+  "debug_info": {
+    "id-info": "13007"
+  }
+}

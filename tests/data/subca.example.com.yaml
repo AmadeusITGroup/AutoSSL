@@ -1,0 +1,45 @@
+---
+name: subca.example.com
+
+certificate:
+  type: DV
+  renewal_delay: 30
+  certificate_authority: Autossl
+  exact_match: true
+  common_name: subca.example.com
+  is_ca: true
+  san:
+    - subca.example.com
+
+organization:
+  company_name: Autossl corporation
+  street_address: Newbury street
+  city: Boston
+  state: Massachusetts
+  postal_code: '02115'
+  country_code: US
+
+certificate_authorities:
+  - name: Autossl
+    key: Autossl
+    certificate_types: ['DV']
+
+storage:
+  type: autossl.storage.local.LocalFileStorage
+  parameters:
+    path: ${AUTOSSL_STORAGE_PATH}
+  data:
+    - type: key
+    - type: csr
+    - type: crt
+
+tracking:
+  type: autossl.tracking.local.LocalFileTracking
+  parameters:
+    log_folder: ${AUTOSSL_TRACKING_PATH}
+  data:
+    - type: yaml
+    - type: csr
+    - type: crt
+
+...

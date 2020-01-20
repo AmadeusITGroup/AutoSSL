@@ -1,0 +1,44 @@
+---
+name: local.example.com
+
+certificate:
+  type: OV
+  renewal_delay: 30
+  certificate_authority: Sectigo
+  exact_match: true
+  common_name: local.example.com
+  san:
+    - local.example.com
+    - tst.local.example.com
+
+organization:
+  company_name: Autossl corporation
+  street_address: Newbury street
+  city: Boston
+  state: Massachusetts
+  postal_code: '02115'
+  country_code: US
+
+certificate_authorities:
+  - name: Sectigo
+    key: Sectigo
+    certificate_types: ['OV']
+
+servers:
+  - type: autossl.server.local.LocalServer
+    parameters:
+      path: ${AUTOSSL_CRT_PATH}
+  - type: autossl.server.local.LocalServer
+    parameters:
+      path: ${AUTOSSL_CRT_PATH_2}
+      deploy_full_chain: true
+
+storage:
+  type: autossl.storage.local.LocalFileStorage
+  parameters:
+    path: ${AUTOSSL_STORAGE_PATH}
+  data:
+    - type: key
+    - type: csr
+    - type: crt
+...

@@ -1,0 +1,40 @@
+---
+name: auto_tst.autossl.example.com
+
+certificate:
+  type: OV
+  renewal_delay: 30
+  certificate_authority: Sectigo
+  exact_match: true
+  private_key_reuse: true
+  private_key_size: 2048
+  common_name: tst.autossl.example.com
+  san:
+    - tst.autossl.example.com
+    - uat.tst.autossl.example.com
+    - pit.tst.autossl.example.com
+    - cit.tst.autossl.example.com
+    - mgt.tst.autossl.example.com
+  organization:
+    company_name: Autossl corporation
+    street_address: Newbury street
+    city: Boston
+    state: Massachusetts
+    postal_code: '02115'
+    country_code: US
+
+servers:
+  - type: autossl.server.local.LocalServer
+    parameters:
+      path: /etc/ssl/my_certificates
+
+tracking:
+  type: autossl.tracking.local.LocalFileTracking
+  parameters:
+    log_folder: /var/log/ssl_logs
+  data:
+    - type: yaml
+    - type: csr
+    - type: crt
+
+...

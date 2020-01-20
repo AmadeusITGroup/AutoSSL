@@ -1,0 +1,22 @@
+---
+name: auto_tst.autossl.example.com
+
+certificate:
+  type: DV
+  renewal_delay: 30
+  certificate_authority: LetsEncrypt
+  exact_match: true
+  common_name: tst.autossl.example.com
+  san:
+    - tst.autossl.example.com
+    - tst1.tst.autossl.example.com
+    - tst2.tst.autossl.example.com
+    - tst3.tst.autossl.example.com
+    - tst4.tst.autossl.example.com
+
+servers:
+  - type: autossl.server.local.LocalServer
+    parameters:
+      path: /etc/ssl/my_certificates
+
+...

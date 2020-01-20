@@ -1,0 +1,49 @@
+language: python
+cache: pip
+
+os:
+  - linux
+
+python:
+  - 2.7
+  - 3.5
+  - 3.6
+  - 3.7
+  - 3.8
+  - pypy
+  - pypy3.5
+  - pypy3
+
+matrix:
+  include:
+    - python: 3.8
+      env: TOX_ENV=flake8
+    - python: 3.8
+      env: TOX_ENV=docs
+
+install:
+  - pip install tox-travis coveralls
+
+script:
+  # if custom env specified, use it else just use current environment parameters
+  - if [ -n "${TOX_ENV}" ]; then
+      tox -e $TOX_ENV;
+    else
+      tox;
+    fi
+
+after_success:
+  - coveralls
+
+deploy:
+  # deploys to PyPI on any tagged commit
+  - provider: pypi
+    user: tcastaing
+    password:
+      secure: "pZ523F3xk/yR29d429sleC72r4K0jo7KydOttvy/4708J8kMPFqmk7nrGmlcSUY3/RQ4mLP5ylTF507Hf4WxU7H/DbfJEc4bgctgwtXaEMwyGxc2x1lQpBf8ShqfFbCVFhwlR/ZBD3jeBXOzRFJ5v5eIhruiaE7QomYwjDtKVIAI1xPj2taM43r+ggQbVO8QBGp2ZdrQWZiN15a/hdjAUT4vVcsSvEEyQZE3yUslP2B7tFOTrAwBFRTfu2mkhy5eU7qkGcpYu9DHSE5dLf+XlbX3fz8ZUQBFDq16io3KrZavyUBnSeWCpkyqy867k+cAHbKXouNpGcuZRU2iyZVi5yKBN1iTFTiN8OmL+mFN9S2lepY2AyZ+9x4sv4SxAMJxlz36a5R7KsZgzPBHWvFdnxnertSNWOQm2fnom6B+msGWRxLnXpOQ+iHTa5JzCnB6Zy9vrvKliPzcmgu2Wpzs4n+8DbUAzDp09IZd0OOW/ZSGlhnp/YTA2W5zlmX60oGjljEe6MnxjJ+5p1GXY9D0yyl1nX1J8Ddv9IPia9EKa8Olfw5YNyLdOYzxqT7luGbLcU5ivWp3E7UwtGS4RnUNPcBBvR/7Lhpm2lI+ObFLRH0g+CEV3NXLc/TB3RKk7Z+t56o5jz0huqo7InZUkGnkF3zkLqxJQj/dPatxKKlkRV0="
+    on:
+      tags: true
+      distributions: sdist bdist_wheel
+      repo: AmadeusITGroup/AutoSSL
+    # Upload artifacts only once
+    skip_existing: true

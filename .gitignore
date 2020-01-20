@@ -1,0 +1,14 @@
+*.pyc
+*.log
+.tox/
+.cache/
+htmlcov/
+.coverage
+autossl.egg-info/
+.idea/
+.eggs/
+dist*/
+venv
+.pytest_cache/
+docs/build
+build

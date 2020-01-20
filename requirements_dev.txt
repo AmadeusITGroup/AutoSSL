@@ -1,0 +1,19 @@
+# mandatory module dependencies
+cryptography
+pyyaml
+requests
+six
+
+# optional module dependencies
+acme
+GitPython
+
+# delivery
+setuptools
+wheel
+
+# test
+flake8>=3.5.0
+pytest>=3.0.7
+pytest-cov>=2.4.0
+tox

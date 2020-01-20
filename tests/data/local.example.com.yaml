@@ -1,0 +1,87 @@
+---
+name: local.example.com
+
+certificate:
+  type: DV
+  renewal_delay: 30
+  certificate_authority: Autossl
+  exact_match: true
+  common_name: local.example.com
+  san:
+    - local.example.com
+    - tst.local.example.com
+  chain_of_trust:
+    - |
+      -----BEGIN CERTIFICATE-----
+      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
+      QqGy/BGfVfWMgKMl
+      -----END CERTIFICATE-----
+
+organization:
+  company_name: Autossl corporation
+  street_address: Newbury street
+  city: Boston
+  state: Massachusetts
+  postal_code: '02115'
+  country_code: US
+
+certificate_authorities:
+  - name: Autossl
+    key: Autossl
+    certificate_types: ['DV']
+
+servers:
+  - type: autossl.server.local.LocalServer
+    parameters:
+      path: ${AUTOSSL_CRT_PATH}
+  - type: autossl.server.local.LocalServer
+    parameters:
+      path: ${AUTOSSL_CRT_PATH_2}
+      deploy_full_chain: true
+
+storage:
+  type: autossl.storage.local.LocalFileStorage
+  parameters:
+    path: ${AUTOSSL_STORAGE_PATH}
+  data:
+    - type: key
+    - type: csr
+    - type: crt
+
+tracking:
+  type: autossl.tracking.local.LocalFileTracking
+  parameters:
+    log_folder: ${AUTOSSL_TRACKING_PATH}
+  data:
+    - type: yaml
+    - type: csr
+    - type: crt
+
+...

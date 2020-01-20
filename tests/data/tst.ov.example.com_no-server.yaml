@@ -1,0 +1,23 @@
+---
+name: auto_tst.autossl.example.com
+
+certificate:
+  type: OV
+  renewal_delay: 30
+  certificate_authority: Sectigo
+  common_name: tst.autossl.example.com
+  san:
+    - tst.autossl.example.com
+    - tst1.tst.autossl.example.com
+    - tst2.tst.autossl.example.com
+    - tst3.tst.autossl.example.com
+    - tst4.tst.autossl.example.com
+  organization:
+    company_name: Autossl corporation
+    street_address: Newbury street
+    city: Boston
+    state: Massachusetts
+    postal_code: '02115'
+    country_code: US
+
+...

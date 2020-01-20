@@ -1,0 +1,6 @@
+[run]
+omit = tests/*
+       .pyenv/*
+       .venv/*
+       .tox/*
+       setup.py
