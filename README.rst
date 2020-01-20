@@ -43,7 +43,7 @@ For a basic installation, just run
 
 to support optional features, you may need extra dependencies, for that install autossl with corresponding `keyword`:
 
-    $ pip install autossl[keyword] --user -i https://repository.rnd.amadeus.net/api/pypi/pypi/simple
+    $ pip install autossl[keyword]
 
 See available `keywords` and associated extra dependencies in table below:
 
