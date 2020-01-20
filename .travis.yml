@@ -11,10 +11,9 @@ python:
   - 3.7
   - 3.8
   - pypy
-  - pypy3.5
   - pypy3
 
-matrix:
+jobs:
   include:
     - python: 3.8
       env: TOX_ENV=flake8
@@ -38,12 +37,13 @@ after_success:
 deploy:
   # deploys to PyPI on any tagged commit
   - provider: pypi
-    user: tcastaing
+    username: "__token__"
     password:
-      secure: "pZ523F3xk/yR29d429sleC72r4K0jo7KydOttvy/4708J8kMPFqmk7nrGmlcSUY3/RQ4mLP5ylTF507Hf4WxU7H/DbfJEc4bgctgwtXaEMwyGxc2x1lQpBf8ShqfFbCVFhwlR/ZBD3jeBXOzRFJ5v5eIhruiaE7QomYwjDtKVIAI1xPj2taM43r+ggQbVO8QBGp2ZdrQWZiN15a/hdjAUT4vVcsSvEEyQZE3yUslP2B7tFOTrAwBFRTfu2mkhy5eU7qkGcpYu9DHSE5dLf+XlbX3fz8ZUQBFDq16io3KrZavyUBnSeWCpkyqy867k+cAHbKXouNpGcuZRU2iyZVi5yKBN1iTFTiN8OmL+mFN9S2lepY2AyZ+9x4sv4SxAMJxlz36a5R7KsZgzPBHWvFdnxnertSNWOQm2fnom6B+msGWRxLnXpOQ+iHTa5JzCnB6Zy9vrvKliPzcmgu2Wpzs4n+8DbUAzDp09IZd0OOW/ZSGlhnp/YTA2W5zlmX60oGjljEe6MnxjJ+5p1GXY9D0yyl1nX1J8Ddv9IPia9EKa8Olfw5YNyLdOYzxqT7luGbLcU5ivWp3E7UwtGS4RnUNPcBBvR/7Lhpm2lI+ObFLRH0g+CEV3NXLc/TB3RKk7Z+t56o5jz0huqo7InZUkGnkF3zkLqxJQj/dPatxKKlkRV0="
+      secure: g9uYWatkFcV3NPtuycrKX+oGGSgYvls3s6LlQmrvTC3cENojplc+8NcSITNSpDoQlov9H2kTQ5sfb2zb65Rthv41X9aP/DboZSnubcOUZfnXvwjtKqAv3RrmHhAe9mdGL4oPo1NRm+ixWle7rRIbyKHZAfs6FzsTAiRTzzDOoaYdwR0ag17Nj7t4M1w3tzBbM6Huf7yXC4QJjZk+8Pq6FDjFMfc7U/RC2hP2xMCJKZr31c9+NGc7y+a90G7y7/4bdgTN5z1lxBR1cN9/prmfHrqDMycGraARb6MLnb5XccSLbnLD/OB+RlfF0CJNSnbulot97VYxFWTzOiDu4mKQCHQtcR01RzwJtvwEsrrNZeMYhWygnSoMPvu6uyGUjGmgfdeXbcCnFKxWUNc7qPQ1xg5+F2JKf10oVuNMyqTfw9ZdSzvTDdor1aooHl7KYHtAhFrSD6+JWuBCPUhZvYHmwMANsjUQF2ogoznaJGV025SauaXwwLSOQHhLzpOYin38Ocg4Cp2ZeLvjzI228emzeQ6Ox7HXlEYJTRp7vf1r/aQj7qbMoq5Rcd4OrTtX6uGxYT4A8T3ivSN5iTR8+F7T8UEG5pW9Cxb7miX4igK/l281n7AcPcXPNSlhPvdjfyuL2Y1jXU386eY/l2RqCVHCf1PNm2zS+HmCKKSacCX+hKI=
+    edge: true # opt in to dpl v2
+    distributions: sdist bdist_wheel
     on:
       tags: true
-      distributions: sdist bdist_wheel
       repo: AmadeusITGroup/AutoSSL
     # Upload artifacts only once
     skip_existing: true
