@@ -47,11 +47,15 @@ to support optional features, you may need extra dependencies, for that install 
 
 See available `keywords` and associated extra dependencies in table below:
 
-|  keyword |  additional dependencies |  extra features                      |
-|----------|--------------------------|--------------------------------------|
-|   all    |    all packages below    |  all features below                  |
-|   acme   |    acme                  |  renewal using ACME protocol         |
-|   git    |    GitPython             |  artifacts storage in git repository |
++------------+--------------------------+--------------------------------------+
+|  keyword   |  additional dependencies |  extra features                      |
++============+==========================+======================================+
+|   all      |    all packages below    |  all features below                  |
++------------+--------------------------+--------------------------------------+
+|   acme     |    acme                  |  renewal using ACME protocol         |
++------------+--------------------------+--------------------------------------+
+|   git      |    GitPython             |  artifacts storage in git repository |
++------------+--------------------------+--------------------------------------+
 
 Tests
 -----
