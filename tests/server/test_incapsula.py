@@ -5,10 +5,11 @@ import base64
 import collections
 import datetime
 import json
-
-import mock
+try:
+    from unittest import mock  # py3
+except ImportError:
+    import mock  # py2
 import pytest
-
 
 from autossl import exception, ssl, util
 from autossl.server import incapsula
