@@ -205,7 +205,7 @@ class SslBlueprint(object):
             if result is None:
                 if len(path) == 1 and path[0] == 'type':
                     # just use base implementation
-                    return 'base.%s'.format(name.title())
+                    return 'base.{}'.format(name.title())
             else:
                 for key in path:
                     if result is None:
