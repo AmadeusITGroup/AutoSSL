@@ -34,9 +34,11 @@ class IncapsulaSite(base.Server):
         self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=5))
 
         # all queries must contain at least this parameters
-        self.basic_params = {'api_key': self.api_key, 'api_id': self.api_id, 'site_id': self.site_id}
+        self.headers = {'x-API-Key': self.api_key, 'x-API-Id': self.api_id}
+        self.basic_params = {'site_id': self.site_id}
         self.site_status = self.session.post(
             url='{}/api/prov/v1/sites/status'.format(self.BASE_URL),
+            headers=self.headers,
             data=self.basic_params,
         ).json()
 
