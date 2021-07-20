@@ -526,7 +526,7 @@ def sign(csr, ca_key, ca_cert, validity_days):
         .serial_number(uuid.uuid4().int) \
         .not_valid_before(now) \
         .not_valid_after(now + datetime.timedelta(days=validity_days)) \
-        .add_extension(extension=x509.AuthorityKeyIdentifier.from_issuer_public_key(ca_key.public_key()),
+        .add_extension(x509.AuthorityKeyIdentifier.from_issuer_public_key(ca_key.public_key()),
                        critical=False)
     for extension in csr.extensions:
         builder = builder.add_extension(extension.value, extension.critical)
