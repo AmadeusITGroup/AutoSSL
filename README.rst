@@ -1,5 +1,5 @@
-.. image:: https://secure.travis-ci.org/AmadeusITGroup/AutoSSL.svg?branch=master
-    :target: http://travis-ci.org/AmadeusITGroup/AutoSSL
+.. image:: https://github.com/AmadeusITGroup/AutoSSL/actions/workflows/test.yaml/badge.svg?branch=master
+    :target: https://github.com/romain-bellanger/AutoSSL/actions
 
 .. image:: https://coveralls.io/repos/AmadeusITGroup/AutoSSL/badge.svg?branch=master
     :target: https://coveralls.io/r/AmadeusITGroup/AutoSSL?branch=master
