@@ -138,18 +138,16 @@ def test_init(incapsula_site):
     assert incapsula_site[0].api_key == API_KEY
     assert incapsula_site[0].api_id == API_ID
     assert incapsula_site[0].site_id == SITE_ID
-    assert incapsula_site[0].basic_params == {'api_key': API_KEY, 'api_id': API_ID, 'site_id': SITE_ID}
+    assert incapsula_site[0].headers == {'x-API-Key': API_KEY, 'x-API-Id': API_ID}
+    assert incapsula_site[0].basic_params == {'site_id': SITE_ID}
     assert isinstance(incapsula_site[0].site_status, dict)
 
     # ensure rest query to incapsula is well formed
     # mock_calls[0] is Session object creation
     # mock_calls[1] is the call to Session.mount() in order to enable http retries
     assert incapsula_site[1].mock_calls[2] == mock.call().post(
-        data={
-            'api_key': API_KEY,
-            'site_id': SITE_ID,
-            'api_id': API_ID,
-        },
+        headers={'x-API-Key': API_KEY, 'x-API-Id': API_ID},
+        data={'site_id': SITE_ID},
         url='https://my.incapsula.com:443/api/prov/v1/sites/status'
     )
 
@@ -168,10 +166,9 @@ def test_deploy_cert(incapsula_site, keypair):
 
     # ensure rest query to incapsula is well formed
     assert incapsula_site[1].mock_calls[3] == mock.call().post(
+        headers={'x-API-Key': API_KEY, 'x-API-Id': API_ID},
         data={
-            'api_key': '6f4d1878-f2c6-446b-8932-636b8f1705a7',
-            'site_id': '12345678',
-            'api_id': '12345',
+            'site_id': SITE_ID,
             'certificate': base64.b64encode(keypair.crt.read_bytes()),
             'private_key': base64.b64encode(keypair.key.read_bytes()),
         },

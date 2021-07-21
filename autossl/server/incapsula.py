@@ -59,6 +59,7 @@ class IncapsulaSite(base.Server):
             for _ in range(5):
                 json_response = self.session.post(
                     url='{}/api/prov/v1/sites/customCertificate/upload'.format(self.BASE_URL),
+                    headers=self.headers,
                     data=parameters,
                 ).json()
                 # deployment is a success
