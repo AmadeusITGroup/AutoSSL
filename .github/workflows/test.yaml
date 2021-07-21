@@ -6,8 +6,8 @@ on:
   push:
 
 jobs:
-  test:
 
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -18,9 +18,13 @@ jobs:
             TOX_OPTS: -e flake8
           - python: 3.9
             TOX_OPTS: -e docs
-
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ matrix.python }}-pip
+          restore-keys: ${{ matrix.python }}-pip
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -44,4 +48,99 @@ jobs:
         run: coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  check_release:
+    runs-on: ubuntu-latest
+    outputs:
+      existing_release: "${{ env.EXISTING_RELEASE }}"
+      package_version: "${{ env.PACKAGE_VERSION }}"
+      github_repository: "${{ env.GITHUB_REPOSITORY }}"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: 3.9-pip
+          restore-keys: 3.9-pip
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install required python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install packaging
+      - name: Get existing tags
+        uses: octokit/request-action@v2.x
+        id: get_all_tags
+        with:
+          route: GET /repos/romain-bellanger/AutoSSL/tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Retrieve the package version from autossl/__version__.py
+        run: |
+          echo PACKAGE_VERSION=$(cat <<EOF | python
+          with open("autossl/__version__.py") as version_file: exec(version_file.read())
+          print(__version__)
+          EOF
+          ) >>"${GITHUB_ENV}"
+      - name: Ensure the package version satisfies PEP440
+        run: |
+          cat <<EOF | python; echo $?
+          import os, sys, re, packaging.version
+          valid_version = re.match(packaging.version.VERSION_PATTERN, os.environ["PACKAGE_VERSION"], re.VERBOSE)
+          if not valid_version:
+              sys.stderr.write("ERROR: Invalid version format {}\n".format(os.environ["PACKAGE_VERSION"]))
+          sys.exit(0 if valid_version else 1)
+          EOF
+      - name: Check if package version already released
+        run: |
+          EXISTING_RELEASE=$(echo -e '${{ steps.get_all_tags.outputs.data }}' | jq '.[].name' | grep '${PACKAGE_VERSION}' || true)
+          echo "EXISTING_RELEASE=${EXISTING_RELEASE}" >>"${GITHUB_ENV}"
+          if [ -z "${EXISTING_RELEASE}" ]; then
+              echo "Package version ${PACKAGE_VERSION} not yet released, will be released by this pipeline if main repo"
+          else
+              echo "Release for version ${PACKAGE_VERSION} already exists"
+          fi
+
+  release:
+    needs: [test, check_release]
+    if: ${{ needs.check_release.outputs.github_repository == 'AmadeusITGroup/AutoSSL' && needs.check_release.outputs.existing_release == '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: 3.9-pip
+          restore-keys: 3.9-pip
+      - name: Test variable
+        run: |
+          echo Test package_version: ${{ needs.check_release.outputs.package_version }}
+          echo Test existing_release: ${{ needs.check_release.outputs.existing_release }}
+      - name: Install required python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+      - name: Build package
+        run: python -m build
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Tag the last commit with version number
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: "${{ needs.check_release.outputs.package_version }}"
+      - name: Create a GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
 
