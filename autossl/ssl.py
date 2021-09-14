@@ -228,7 +228,7 @@ class SslBlueprint(object):
 class SslCertificateConfig(object):
     def __init__(self, certificate_type, certificate_authority,
                  common_name=None, sans=None, organization=None, chain_of_trust=None,
-                 exact_match=False, private_key_reuse=True, private_key_size=4096,
+                 exact_match=False, private_key_reuse=False, private_key_size=4096,
                  renewal_delay=30, is_ca=False):
         """
 
