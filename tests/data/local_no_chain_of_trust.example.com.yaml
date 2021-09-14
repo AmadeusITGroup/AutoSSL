@@ -4,6 +4,7 @@ name: local.example.com
 certificate:
   type: OV
   renewal_delay: 30
+  private_key_reuse: true
   certificate_authority: Sectigo
   exact_match: true
   common_name: local.example.com
