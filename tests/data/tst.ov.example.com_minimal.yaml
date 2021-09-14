@@ -6,6 +6,7 @@ certificate:
   renewal_delay: 30
   certificate_authority: LetsEncrypt
   exact_match: true
+  private_key_reuse: true
   common_name: tst.autossl.example.com
   san:
     - tst.autossl.example.com

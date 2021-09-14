@@ -5,6 +5,7 @@ certificate:
   type: DV
   renewal_delay: 30
   certificate_authority: Autossl
+  private_key_reuse: true
   exact_match: true
   common_name: subca.example.com
   is_ca: true
