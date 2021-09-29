@@ -43,7 +43,7 @@ class IncapsulaSite(base.Server):
         ).json()
 
     def get_description(self):
-        return "[{} - {} ({})]".format(self.__class__.__name__, self.site_status['domain'], self.site_id)
+        return "[{} - ID ({})]".format(self.__class__.__name__, self.site_id)
 
     def deploy_cert(self, key, cert, **kwargs):
         # authentication data and site ID

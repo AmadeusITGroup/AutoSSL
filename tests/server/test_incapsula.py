@@ -153,7 +153,7 @@ def test_init(incapsula_site):
 
 
 def test_get_description(incapsula_site):
-    assert incapsula_site[0].get_description() == '[IncapsulaSite - tst.example.autossl.com (12345678)]'
+    assert incapsula_site[0].get_description() == '[IncapsulaSite - ID (12345678)]'
 
 
 @pytest.mark.parametrize('incapsula_json_response_second_call', [
