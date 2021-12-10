@@ -228,7 +228,7 @@ class SslBlueprint(object):
 class SslCertificateConfig(object):
     def __init__(self, certificate_type, certificate_authority,
                  common_name=None, sans=None, organization=None, chain_of_trust=None,
-                 exact_match=False, private_key_reuse=False, private_key_size=4096,
+                 exact_match=False, private_key_reuse=False, private_key_size=2048,
                  renewal_delay=30, is_ca=False):
         """
 
@@ -383,7 +383,7 @@ def generate_csr(name,
                  email_address=None,
                  sans=None,
                  key_content=None,
-                 key_size=4096,
+                 key_size=2048,
                  output_path=None,
                  is_ca=False):
     """Generate a CSR for specified parameters
