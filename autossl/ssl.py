@@ -482,7 +482,7 @@ def generate_csr(name,
         )
         if sans:
             builder = builder.add_extension(
-                x509.NameConstraints([x509.DNSName(u"%s" % alt_domain) for alt_domain in sans], []), critical=True
+                x509.NameConstraints([x509.DNSName(u"%s" % alt_domain) for alt_domain in sans], None), critical=True
             )
 
     # Sign the CSR with our private key.
@@ -729,7 +729,7 @@ class SslCertificate(object):
         try:
             for dns_name in x509_object.extensions.get_extension_for_oid(ExtensionOID.SUBJECT_ALTERNATIVE_NAME).value:
                 self.sans.append(dns_name.value)
-        except ExtensionNotFound:
+        except (ExtensionNotFound, ValueError):
             # no san in that certificate
             pass
 
