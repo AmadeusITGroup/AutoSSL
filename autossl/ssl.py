@@ -5,6 +5,7 @@ import os
 import re
 import tempfile
 import uuid
+import copy
 
 # external packages
 from cryptography.hazmat.backends import default_backend
@@ -73,7 +74,7 @@ class SslBlueprint(object):
         self.name = blueprint_content.get('name')
 
         # list of servers where certificate must be deployed
-        self.servers = blueprint_content.get('servers', [])
+        self.servers = self.expand_servers(blueprint_content.get('servers', []),global_config_content)
 
         #########################
         # certificate information
@@ -223,6 +224,24 @@ class SslBlueprint(object):
         # chain of trust can be define directly in certificate config
         # or globally at CA config level
         return self.certificate.chain_of_trust or self.ca_config.get_chain_of_trust()
+
+    def expand_servers(self, servers, global_config_content):
+        """Return the list of servers expanded in case we are using placeholders
+        :return: dict of servers
+        :rtype: dict
+        """
+        expanded_servers = []
+        for server in servers:
+            host_placeholder = server["parameters"].get("host")
+            if host_placeholder in global_config_content.get("servers", {}):
+                for real_host in global_config_content["servers"][host_placeholder]:
+                    new_server = copy.deepcopy(server)
+                    new_server["parameters"]["host"] = real_host
+                    expanded_servers.append(new_server)
+            else:
+                expanded_servers.append(server)
+
+        return expanded_servers
 
 
 class SslCertificateConfig(object):
