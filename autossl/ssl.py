@@ -66,15 +66,17 @@ class SslBlueprint(object):
             with tempfile.NamedTemporaryFile(delete=False, mode='w+') as consolidated_blueprint_file:
                 self.consolidated_blueprint_path = util.Path(consolidated_blueprint_file.name)
                 yaml.dump(data=blueprint_content, stream=consolidated_blueprint_file)
+
+            # list of servers where certificate must be deployed
+            self.servers = self.expand_servers(blueprint_content.get('servers', []),global_config_content)
+
         else:
             self.consolidated_blueprint_path = self.blueprint_path
+            self.servers = blueprint_content.get('servers', [])
 
         # ## mandatory fields
         # name of certificate on server
         self.name = blueprint_content.get('name')
-
-        # list of servers where certificate must be deployed
-        self.servers = self.expand_servers(blueprint_content.get('servers', []),global_config_content)
 
         #########################
         # certificate information
